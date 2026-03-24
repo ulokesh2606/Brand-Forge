@@ -1,0 +1,29 @@
+[project]
+name = "brandforge"
+version = "2.0.0"
+description = "AI-powered multi-channel marketing content generator using LangGraph"
+requires-python = ">=3.12"
+dependencies = [
+    "langgraph>=1.1.0",
+    "langchain>=1.2.0",
+    "langchain-openai>=1.1.0",
+    "openai>=2.0.0",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.27.0",
+    "pydantic>=2.0.0",
+    "requests>=2.31.0",
+    "urllib3>=2.0.0",
+    "beautifulsoup4>=4.12.0",
+    "crawl4ai>=0.8.0",
+    "streamlit>=1.32.0",
+    "python-dotenv>=1.0.0",
+]
+
+[tool.uv]
+# Run: uv sync  (to install all deps)
+# Or:  uv run streamlit run app.py
+# Or:  uv run uvicorn main:app --reload
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BrandForge — AI Marketing Content Engine</title>
+  <meta name="description" content="Multi-agent LangGraph pipeline that generates LinkedIn, Instagram, YouTube and Google Ads content tailored to your real marketing motion." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/styles.css" />
+</head>
+<body>
+  <!-- 🔹 SaaS Auth Overlay -->
+  <div id="auth-overlay" class="auth-overlay glass">
+    <div class="auth-card">
+      <div class="auth-logo">✦ Brand<span>Forge</span></div>
+      <p class="auth-subtitle">AI Marketing Content Engine</p>
+      
+      <div id="auth-form-wrap">
+        <form id="login-form">
+          <div class="field-group">
+            <label class="field-label">Username</label>
+            <input type="text" id="login-user" class="field-input" value="admin" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Password</label>
+            <input type="password" id="login-pass" class="field-input" value="password123" required>
+          </div>
+          <button type="submit" class="btn-primary" style="width:100%; margin-top:20px;">Sign In ✦</button>
+        </form>
+        <p class="card-sub" style="text-align:center; margin-top:15px;">Use <strong>admin / password123</strong> for demo</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🔹 Main App Wrapper -->
+  <div id="app-wrap" class="app-wrap blurred">
+    <header class="saas-header">
+      <div class="header-logo">✦ BrandForge</div>
+      <div class="header-user">
+        <span id="user-display">Admin Account</span>
+        <button id="logout-btn" class="btn-secondary" style="padding: 4px 12px; font-size:12px;">Logout</button>
+      </div>
+    </header>
+
+    <main class="wizard-root" id="app">
+
+  <!-- ── STEP 1: Brand ───────────────────────────────────── -->
+  <section class="step" id="step-1" data-step="1">
+    <div class="hero-block">
+      <div class="hero-pill">✦ 4-Agent LangGraph Pipeline</div>
+      <h1 class="hero-title">
+        Content built around<br>
+        <span class="gradient-text">your real marketing motion.</span>
+      </h1>
+      <p class="hero-sub">
+        Not generic AI output — BrandForge crawls your site, builds a RAG index,
+        and runs a 4-agent pipeline with a self-correcting evaluation loop.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="step-badge">01</span>
+        <span class="card-title">Tell us about your brand</span>
+      </div>
+      <p class="card-sub">Enter your site URL. If your site is JS-heavy or you want precise control, paste brand copy directly.</p>
+
+      <div class="field-group">
+        <label class="field-label" for="url">Brand Website URL</label>
+        <input id="url" type="url" class="field-input" placeholder="https://yourcompany.com" />
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="website-content">
+          Paste Brand / Product Description
+          <span class="field-hint">optional — overrides live crawl</span>
+        </label>
+        <textarea id="website-content" class="field-textarea" rows="6"
+          placeholder="Paste your about page, product description, or marketing copy. The more specific, the better the output. Leave blank to use live crawl."></textarea>
+      </div>
+
+      <div class="sample-section">
+        <div class="sample-label">Load a sample brand →</div>
+        <div class="sample-pills" id="sample-pills">
+          <button class="sample-pill" data-sample="zenfit">💪 ZenFit</button>
+          <button class="sample-pill" data-sample="bitezy">🍔 Bitezy</button>
+          <button class="sample-pill" data-sample="notion">📋 Notion AI</button>
+          <button class="sample-pill" data-sample="glossier">💄 Glossier</button>
+          <button class="sample-pill" data-sample="linear">⚡ Linear</button>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <div></div>
+        <button class="btn-primary" id="step1-next">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Pipeline overview cards -->
+    <div class="pipeline-cards">
+      <div class="pipeline-card">
+        <div class="pc-icon">🔍</div>
+        <div class="pc-label">1. Site Crawl</div>
+        <div class="pc-desc">crawl4ai BFS-crawls your site (or uses pasted content) to gather brand data</div>
+      </div>
+      <div class="pipeline-card">
+        <div class="pc-icon">🗄️</div>
+        <div class="pc-label">2. RAG Index</div>
+        <div class="pc-desc">Content is chunked, embedded (text-embedding-3-small), and stored in Qdrant</div>
+      </div>
+      <div class="pipeline-card">
+        <div class="pc-icon">🧠</div>
+        <div class="pc-label">3. Brand Analysis</div>
+        <div class="pc-desc">Agent 1 runs semantic queries against Qdrant to extract brand guidelines</div>
+      </div>
+      <div class="pipeline-card">
+        <div class="pc-icon">✍️ → 🔍</div>
+        <div class="pc-label">4. Write + Evaluate</div>
+        <div class="pc-desc">Agent 3 writes, Agent 4 evaluates with structured feedback. Loops up to 5× until PASS.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 2: Campaign ────────────────────────────────── -->
+  <section class="step hidden" id="step-2" data-step="2">
+    <div class="card">
+      <div class="card-header">
+        <span class="step-badge">02</span>
+        <span class="card-title">Campaign brief</span>
+      </div>
+      <p class="card-sub">What are you trying to achieve? Be specific — this defines the angle, hook, and CTA for each channel.</p>
+
+      <div class="field-group">
+        <label class="field-label" for="campaign-goal">Campaign Goal</label>
+        <textarea id="campaign-goal" class="field-textarea" rows="3"
+          placeholder="e.g. Drive free trial signups for our new AI workout planner launching in Q2"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="target-audience">Target Audience</label>
+        <input id="target-audience" type="text" class="field-input"
+          placeholder="e.g. Busy working professionals aged 25-40 at tech companies" />
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="tone-keywords">
+          Tone Keywords
+          <span class="field-hint">comma-separated</span>
+        </label>
+        <input id="tone-keywords" type="text" class="field-input"
+          placeholder="e.g. science-backed, no-fluff, results-driven, direct" />
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" data-back="1">← Brand</button>
+        <button class="btn-primary" id="step2-next">Continue →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 3: Marketing Context ──────────────────────── -->
+  <section class="step hidden" id="step-3" data-step="3">
+    <div class="card">
+      <div class="card-header">
+        <span class="step-badge">03</span>
+        <span class="card-title">Marketing context</span>
+      </div>
+      <p class="card-sub">This is what separates BrandForge from ChatGPT. The pipeline reads what's ALREADY working for your brand and builds on it — not against it.</p>
+
+      <div class="fields-row">
+        <div class="field-group">
+          <label class="field-label" for="current-channels">Channels you currently use</label>
+          <input id="current-channels" type="text" class="field-input"
+            placeholder="e.g. LinkedIn, Google Ads, Instagram" />
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="competitors">Main competitors</label>
+          <input id="competitors" type="text" class="field-input"
+            placeholder="e.g. Peloton, Whoop, Fitbod" />
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="current-messaging">Current messaging / positioning</label>
+        <textarea id="current-messaging" class="field-textarea" rows="2"
+          placeholder="e.g. We've been running 'work smarter not harder' as our main positioning for 6 months"></textarea>
+      </div>
+      <div class="field-group">
+        <label class="field-label" for="current-campaigns">Active campaigns right now</label>
+        <textarea id="current-campaigns" class="field-textarea" rows="2"
+          placeholder="e.g. Google Search retargeting trial users who didn't convert; weekly LinkedIn posts"></textarea>
+      </div>
+      <div class="fields-row">
+        <div class="field-group">
+          <label class="field-label has-highlight" for="what-worked">✓ What has worked</label>
+          <textarea id="what-worked" class="field-textarea" rows="3"
+            placeholder="e.g. LinkedIn posts with specific stats (23 minutes optimal workout) get 3x engagement vs motivational content"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label has-highlight-bad" for="what-not-worked">✗ What has NOT worked</label>
+          <textarea id="what-not-worked" class="field-textarea" rows="3"
+            placeholder="e.g. Generic motivational messaging — our audience sees through it and scrolls past"></textarea>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" data-back="2">← Campaign</button>
+        <button class="btn-primary" id="step3-next">Continue →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 4: Channels + Generate ────────────────────── -->
+  <section class="step hidden" id="step-4" data-step="4">
+    <div class="card">
+      <div class="card-header">
+        <span class="step-badge">04</span>
+        <span class="card-title">Choose output channels</span>
+      </div>
+      <p class="card-sub">Select the platforms you want content for. Only selected channels are written and evaluated.</p>
+
+      <div class="channel-grid" id="channel-grid">
+        <label class="channel-card selected" data-channel="linkedin">
+          <input type="checkbox" value="linkedin" checked hidden />
+          <div class="ch-icon">🔷</div>
+          <div class="ch-name">LinkedIn</div>
+          <div class="ch-desc">250-300 word thought leadership post</div>
+          <div class="ch-check">✓</div>
+        </label>
+        <label class="channel-card selected" data-channel="instagram">
+          <input type="checkbox" value="instagram" checked hidden />
+          <div class="ch-icon">📸</div>
+          <div class="ch-name">Instagram</div>
+          <div class="ch-desc">3-5 sentence caption + 5 hashtags</div>
+          <div class="ch-check">✓</div>
+        </label>
+        <label class="channel-card selected" data-channel="youtube">
+          <input type="checkbox" value="youtube" checked hidden />
+          <div class="ch-icon">▶</div>
+          <div class="ch-name">YouTube</div>
+          <div class="ch-desc">Title + 3-paragraph description + tags</div>
+          <div class="ch-check">✓</div>
+        </label>
+        <label class="channel-card selected" data-channel="google_ad">
+          <input type="checkbox" value="google_ad" checked hidden />
+          <div class="ch-icon">🎯</div>
+          <div class="ch-name">Google Ads</div>
+          <div class="ch-desc">3 headlines (30 chars) + 2 descriptions (90 chars)</div>
+          <div class="ch-check">✓</div>
+        </label>
+      </div>
+
+      <div class="combo-row">
+        <span class="combo-label">Quick combos:</span>
+        <button class="combo-btn" data-channels="linkedin">LinkedIn only</button>
+        <button class="combo-btn" data-channels="linkedin,youtube">LinkedIn + YouTube</button>
+        <button class="combo-btn" data-channels="instagram,google_ad">Instagram + Ads</button>
+        <button class="combo-btn" data-channels="linkedin,instagram,youtube,google_ad">All channels</button>
+      </div>
+
+      <!-- Brief summary -->
+      <div class="summary-card" id="brief-summary"></div>
+
+      <div class="nav-buttons">
+        <button class="btn-secondary" data-back="3">← Context</button>
+        <button class="btn-generate" id="generate-btn">
+          <span class="btn-icon">✦</span> Generate Content
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STEP 5: Generating (Progress) ──────────────────── -->
+  <section class="step hidden" id="step-5" data-step="5">
+    <div class="card progress-card">
+      <div class="progress-header">
+        <div class="progress-spinner"></div>
+        <div>
+          <div class="progress-title">Running 4-Agent Pipeline</div>
+          <div class="progress-sub" id="progress-sub">Initialising...</div>
+        </div>
+      </div>
+
+      <div class="agent-pipeline" id="agent-pipeline">
+        <div class="agent-row" id="ap-scraper">
+          <div class="agent-icon">🔍</div>
+          <div class="agent-info">
+            <div class="agent-name">Web Scraper</div>
+            <div class="agent-status idle">Waiting...</div>
+          </div>
+          <div class="agent-badge" id="badge-scraper"></div>
+        </div>
+        <div class="agent-connector"></div>
+        <div class="agent-row" id="ap-rag">
+          <div class="agent-icon">🗄️</div>
+          <div class="agent-info">
+            <div class="agent-name">Qdrant RAG Indexer</div>
+            <div class="agent-status idle">Waiting...</div>
+          </div>
+          <div class="agent-badge" id="badge-rag"></div>
+        </div>
+        <div class="agent-connector"></div>
+        <div class="agent-row" id="ap-brand_interpreter">
+          <div class="agent-icon">🧠</div>
+          <div class="agent-info">
+            <div class="agent-name">Agent 1 — Brand Interpreter</div>
+            <div class="agent-status idle">Waiting...</div>
+          </div>
+          <div class="agent-badge" id="badge-brand_interpreter"></div>
+        </div>
+        <div class="agent-connector"></div>
+        <div class="agent-row" id="ap-content_strategist">
+          <div class="agent-icon">🎯</div>
+          <div class="agent-info">
+            <div class="agent-name">Agent 2 — Content Strategist</div>
+            <div class="agent-status idle">Waiting...</div>
+          </div>
+          <div class="agent-badge" id="badge-content_strategist"></div>
+        </div>
+        <div class="agent-connector"></div>
+        <div class="agent-row" id="ap-content_writer">
+          <div class="agent-icon">✍️</div>
+          <div class="agent-info">
+            <div class="agent-name">Agent 3 — Content Writer</div>
+            <div class="agent-status idle">Waiting...</div>
+          </div>
+          <div class="agent-badge" id="badge-content_writer"></div>
+        </div>
+        <div class="agent-connector"></div>
+        <div class="agent-row" id="ap-brand_voice_evaluator">
+          <div class="agent-icon">🔍</div>
+          <div class="agent-info">
+            <div class="agent-name">Agent 4 — Brand Voice Evaluator</div>
+            <div class="agent-status idle">Waiting...</div>
+          </div>
+          <div class="agent-badge" id="badge-brand_voice_evaluator"></div>
+        </div>
+      </div>
+
+      <div class="rag-info" id="rag-info" style="display:none;">
+        <span class="rag-label">Qdrant Collection</span>
+        <span class="rag-value" id="rag-collection">—</span>
+        <span class="rag-label">Chunks Indexed</span>
+        <span class="rag-value" id="rag-chunks">—</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── STEP 6: Results ─────────────────────────────────── -->
+  <section class="step hidden" id="step-6" data-step="6">
+    <div class="results-header">
+      <div>
+        <h2 class="results-title">✦ Generated Content</h2>
+        <div class="thread-id" id="thread-display"></div>
+      </div>
+      <button class="btn-secondary" id="restart-btn">← Generate new content</button>
+    </div>
+    
+    <!-- Metrics row -->
+    <div class="metrics-row" id="metrics-row"></div>
+
+    <!-- Loop info -->
+    <div class="loop-info hidden" id="loop-info"></div>
+
+    <!-- Content tabs + panels -->
+    <div class="content-section">
+      <div class="content-tabs" id="content-tabs"></div>
+      <div class="content-panels" id="content-panels"></div>
+    </div>
+
+    <!-- 🚩 HITL: Human Intervention Panel inside step 6 -->
+    <div id="hitl-panel" class="hitl-panel" style="margin-bottom: 24px; margin-top: 24px; border: 1px solid rgba(124,109,250,0.3); background: rgba(124,109,250,0.05); padding: 20px; border-radius: 12px;">
+      <div class="hitl-header">
+         <div class="hitl-title" style="color:#a78bfa; font-weight:700; font-size: 14px; margin-bottom:4px;">✏️ Generation Complete</div>
+         <p class="hitl-sub" style="font-size:12px; color:#888;">Approve individual channels above, or write revision feedback directly in their tabs. Then hit regenerate!</p>
+      </div>
+
+      <div class="nav-buttons" style="margin-top:12px; justify-content: flex-start; gap: 10px;">
+        <button id="hitl-resume-btn" class="btn-primary" style="padding: 6px 16px; font-size:13px; min-width: 250px;">🚀 Regenerate Reviewed Channels</button>
+      </div>
+    </div>
+    
+    <!-- Grid Content ends here -->
+
+    <!-- Brand guidelines expander -->
+    <details class="expander" id="guidelines-expander">
+      <summary>🧠 Brand Guidelines extracted from website + brief</summary>
+      <div class="expander-body" id="guidelines-body"></div>
+    </details>
+
+    <!-- Feedback expander -->
+    <details class="expander hidden" id="feedback-expander">
+      <summary>↻ Agent 4 → Agent 3 Feedback (structured rewrite instructions)</summary>
+      <div class="expander-body">
+        <pre class="code-block" id="feedback-body"></pre>
+      </div>
+    </details>
+
+    <!-- Raw JSON -->
+    <details class="expander">
+      <summary>{ } Full Raw JSON</summary>
+      <div class="expander-body">
+        <pre class="code-block" id="raw-json"></pre>
+      </div>
+    </details>
+  </section>
+
+</main>
+
+<!-- Progress bar (top) -->
+<div class="progress-bar-wrap" id="progress-bar-wrap">
+  <div class="progress-bar-steps" id="progress-steps"></div>
+</div>
+
+  </div> <!-- end app-wrap -->
+
+<script src="/static/js/samples.js?v=2"></script>
+<script src="/static/js/app.js?v=2"></script>
+<script src="/static/js/results.js?v=2"></script>
+</body>
+</html>

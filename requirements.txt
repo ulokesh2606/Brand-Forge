@@ -1,0 +1,38 @@
+# BrandForge — Python dependencies
+# Install: pip install -r requirements.txt
+# After installing crawl4ai, run once: crawl4ai-setup
+
+# ── LangGraph / LangChain ──────────────────────────────────
+langgraph>=1.1.0
+langchain>=1.2.0
+langchain-openai>=1.1.0
+langchain-text-splitters>=0.3.0   # RecursiveCharacterTextSplitter for RAG chunking
+
+# ── OpenAI ─────────────────────────────────────────────────
+openai>=2.0.0
+
+# ── Vector store (RAG) ─────────────────────────────────────
+qdrant-client>=1.9.0              # In-memory vector DB for brand knowledge indexing
+
+# ── Web framework ──────────────────────────────────────────
+fastapi>=0.110.0
+uvicorn>=0.27.0
+python-multipart>=0.0.9
+
+# ── Data validation ────────────────────────────────────────
+pydantic>=2.0.0
+
+# ── HTTP / Scraping ────────────────────────────────────────
+requests>=2.31.0
+urllib3>=2.0.0
+beautifulsoup4>=4.12.0
+
+# ── Web crawler (primary scraper) ─────────────────────────
+# Requires one-time browser setup after install: crawl4ai-setup
+crawl4ai>=0.8.0
+
+# ── Streamlit UI (alternative to HTML frontend) ───────────
+streamlit>=1.32.0
+
+# ── Env config ─────────────────────────────────────────────
+python-dotenv>=1.0.0
