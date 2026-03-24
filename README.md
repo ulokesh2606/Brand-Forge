@@ -1,7 +1,3 @@
-<div align="center">
-  <img src="https://raw.githubusercontent.com/lokesh/brandforge/main/assets/brandforge_logo.png" alt="BrandForge Logo" width="120" />
-</div>
-
 <h1 align="center">BrandForge</h1>
 
 <p align="center">
@@ -15,7 +11,6 @@
   <img src="https://img.shields.io/badge/Qdrant-Vector%20DB-db2777?style=flat-square&logo=qdrant" alt="Qdrant" />
   <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-black?style=flat-square&logo=openai" alt="OpenAI" />
 </p>
-
 ---
 
 **BrandForge** isn't just a wrapper around ChatGPT. It’s an engineered **LangGraph State Machine** that autonomously crawls a brand's website, builds a localized Retrieval-Augmented Generation (RAG) vector space, and deploys a strict 4-agent assembly line to generate, evaluate, and iteratively refine marketing copy natively formatted for LinkedIn, Instagram, YouTube, and Google Ads.
@@ -24,23 +19,77 @@ Everything culminates in a **granular Expert Review Panel** where humans act as 
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
-*   **⚡ Async Web Crawling**: Driven by `crawl4ai` to cleanly extract markdown context directly from the brand’s domain.
-*   **🧠 Intelligent Memory (RAG)**: Automatically chunks and indexes crawled rules into an in-memory **Qdrant** Vector DB via OpenAI `text-embedding-3-small`.
-*   **🤖 4-Agent LangGraph Pipeline**:
+*   **Async Web Crawling**: Driven by `crawl4ai` to cleanly extract markdown context directly from the brand’s domain.
+*   **Intelligent Memory (RAG)**: Automatically chunks and indexes crawled rules into an in-memory **Qdrant** Vector DB via OpenAI `text-embedding-3-small`.
+*   **4-Agent LangGraph Pipeline**:
     *   **1. Interpreter**: Establishes the Brand Bible (Voice, Pillars, Forbidden Phrasing).
     *   **2. Strategist**: Formulates hooks and angles natively optimized for each requested channel.
     *   **3. Writer**: Generates the exact marketing draft.
     *   **4. Evaluator**: A strict AI QA node that forcibly fails and reprioritizes content if rules are broken (up to 3 iterative loops).
-*   **🧑‍🏫 Human-in-the-loop (HITL)**: An interactive frontend interface deployed at the end of the AI pipeline. Users can structurally lock ("Approve") specific channels and surgically reject others with explicit rewriting directives.
-*   **🌊 Server-Sent Events (SSE)**: Silky smooth, real-time UI streaming built entirely in Vanilla JS via FastAPI async generators.
+*   **Human-in-the-loop (HITL)**: An interactive frontend interface deployed at the end of the AI pipeline. Users can structurally lock ("Approve") specific channels and surgically reject others with explicit rewriting directives.
+*   **Server-Sent Events (SSE)**: Silky smooth, real-time UI streaming built entirely in Vanilla JS via FastAPI async generators.
 
 ---
 
 ## 🗺️ Architecture
 
 For a detailed view of the node connections, conditional router logic, and exact data flow between the AI Evaluator and the HITL frontend, please see our dedicated [Architecture Documentation](ARCHITECTURE.md).
+
+---
+
+### Core Agent Workflow
+
+1. **Brand Interpreter (RAG Agent)**
+   - Retrieves brand voice, tone, and guidelines from Qdrant vector DB
+
+2. **Content Strategist**
+   - Defines channel-specific angles, hooks, and CTAs
+
+3. **Content Writer**
+   - Generates marketing content aligned with brand voice and strategy
+
+4. **Brand Voice Evaluator**
+   - Performs strict QA validation and scoring
+   - Triggers iterative refinement if content fails
+     
+--- 
+
+### Autonomous Evaluation Loop
+
+- If evaluation fails:
+  → System loops back to **Content Writer**
+  → Regenerates content (max 3 iterations)
+
+### 🧑‍🏫 Human-in-the-Loop (HITL)
+
+After automated evaluation:
+
+- Users can:
+  - Approve specific channels
+  - Provide targeted feedback
+
+- System resumes execution:
+  - Preserves approved content
+  - Rewrites only rejected parts
+  - Re-evaluates for quality
+
+---
+### ⚙️ Key Design
+
+- Built using **LangGraph StateGraph**
+- Each agent operates as a node updating shared `BrandState`
+- Uses **MemorySaver checkpointing** to pause & resume workflows
+- Supports **dynamic conditional routing + feedback-driven execution**
+  
+---
+
+### 🔍 Observability
+
+- Real-time agent execution via SSE streaming
+- Step-wise visibility into agent outputs
+- Iteration tracking and evaluation feedback logging
 
 ---
 
@@ -91,7 +140,7 @@ Then simply open your browser to: **[http://localhost:8000](http://localhost:800
 
 ---
 
-## ⚙️ How the HITL Feedback Loop Operates
+## How the HITL Feedback Loop Operates
 
 One of BrandForge's unique signatures is the **Channel-locking HitL Engine**:
 1. When Generation finishes, a `dict` mapping of all channels is sent over SSE to the frontend `RESULTS` screen.
@@ -100,7 +149,7 @@ One of BrandForge's unique signatures is the **Channel-locking HitL Engine**:
 4. State Checkpointing using LangGraph's `MemorySaver` restores the graph instantly.
 5. **Agent 3 (Writer)** parses the JSON, completely skips OpenAI invocation for locked "Approved" channels (preserving identical state), and hyper-focuses on the "Review" keys using the user's explicit directive natively injected back into the System Prompt!
 
-## ☁️ Deployment (Render)
+## Deployment (Render)
 
 BrandForge is fully configured to be securely hosted on services like [Render](https://render.com).
 
@@ -117,7 +166,7 @@ BrandForge is fully configured to be securely hosted on services like [Render](h
 
 ---
 
-## 🚀 Future Scope & Scale
+## Future Scope & Scale
 
 This architecture is rigorously modular and built to scale into a robust Enterprise tool. Potential future additions:
 
