@@ -11,7 +11,6 @@
   <img src="https://img.shields.io/badge/Qdrant-Vector%20DB-db2777?style=flat-square&logo=qdrant" alt="Qdrant" />
   <img src="https://img.shields.io/badge/OpenAI-GPT--4o--mini-black?style=flat-square&logo=openai" alt="OpenAI" />
 </p>
----
 
 **BrandForge** isn't just a wrapper around ChatGPT. It’s an engineered **LangGraph State Machine** that autonomously crawls a brand's website, builds a localized Retrieval-Augmented Generation (RAG) vector space, and deploys a strict 4-agent assembly line to generate, evaluate, and iteratively refine marketing copy natively formatted for LinkedIn, Instagram, YouTube, and Google Ads.
 
@@ -33,9 +32,21 @@ Everything culminates in a **granular Expert Review Panel** where humans act as 
 
 ---
 
-## 🗺️ Architecture
+## Architecture
 
-For a detailed view of the node connections, conditional router logic, and exact data flow between the AI Evaluator and the HITL frontend, please see our dedicated [Architecture Documentation](ARCHITECTURE.md).
+BrandForge is built using a **LangGraph-based multi-agent state machine**, where agents collaborate through a shared state and conditional routing.
+
+### System Architecture
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/ulokesh2606/Brand-Forge/main/images/System-Architecture.png" width="700"/>
+</div>
+
+### LangGraph State Flow
+
+<div align="center">
+  <img src="https://raw.githubusercontent.com/ulokesh2606/Brand-Forge/main/images/State-Graph.png" width="600"/>
+</div>
 
 ---
 
@@ -62,7 +73,7 @@ For a detailed view of the node connections, conditional router logic, and exact
   → System loops back to **Content Writer**
   → Regenerates content (max 3 iterations)
 
-### 🧑‍🏫 Human-in-the-Loop (HITL)
+### Human-in-the-Loop (HITL)
 
 After automated evaluation:
 
@@ -76,7 +87,7 @@ After automated evaluation:
   - Re-evaluates for quality
 
 ---
-### ⚙️ Key Design
+### Key Design
 
 - Built using **LangGraph StateGraph**
 - Each agent operates as a node updating shared `BrandState`
@@ -85,7 +96,7 @@ After automated evaluation:
   
 ---
 
-### 🔍 Observability
+### Observability
 
 - Real-time agent execution via SSE streaming
 - Step-wise visibility into agent outputs
